@@ -5,7 +5,6 @@ int main(){
 	std::cout << "Finalmente sono qua!";
 
 	std::cout << "Ciao Fre!";
-
-	dgfhjdgj;
-
 }
+
+//Sintassi_Generale_cplusplus
