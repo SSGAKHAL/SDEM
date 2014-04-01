@@ -1,13 +1,16 @@
 #include <iostream>
-#include <vector>
 #include <fstream>
 #include <algorithm>
 #include <iterator>
 #include <set>
 
+#include "packbits.h"
+
 using namespace std;
+
+typedef unsigned char byte;
 /*
-Classe Packibits: permette di eseguire l'encoding e decoding di uno stream (es: un file)
+Classe Packbits: permette di eseguire l'encoding e decoding di uno stream (es: un file)
 	encode() esegue la codifica
 	decode() esegue la decodifica
 
@@ -32,18 +35,10 @@ Classe Packibits: permette di eseguire l'encoding e decoding di uno stream (es: 
 
 
 */
-class packbits{
-
-	/*Un vettore che fa da buffer per il programma*/
-	vector<char> _prev;
-
-private:
-
-	/*Costruttore*/
-	packbits();
+	
 
 	/*Quando ho finito una run, devo scrivere su file!*/
-	void output_run(ostream &os){
+	void packbits::output_run(ostream &os){
 
 		/*Sono nel caso in cui devo comprimere! - scrivo 257 meno la grandezza del buffer!*/
 		int L = 257 - _prev.size();
@@ -58,7 +53,7 @@ private:
 		_prev.clear();
 	}
 
-	void output_nonrun(ostream &os){
+	void packbits::output_nonrun(ostream &os){
 
 		/*Non devo comprire una sega:*/
 		int L = _prev.size() - 1;
@@ -74,8 +69,7 @@ private:
 		_prev.clear();
 	}
 
-public:
-	void encode(istream &is, ostream &os){
+	void packbits::encode(istream &is, ostream &os){
 
 		/*Spazio per il carattere corrente*/
 		char curChar;
@@ -124,12 +118,62 @@ public:
 			/*Fuori da case: in ogni caso, prendo il carattere corrente!*/
 			_prev.push_back(curChar);
 
+			/*Senza questo, funziona bene ma sarebbe un picolo errore*/
+			if (_prev.size() == 129){
+
+				/*Se ho un buffer di oltre 129 caratteri, c'è un problema: 
+				Ad esempio, buffer di 300 caratteri uguali: allora dovrei scrivere
+				"257-300" che fa un numero negativo--> impossibile decodificare.*/
+
+				/*Ho un buffer grande 129 caratteri. Possono essere sia 129 diversi o 129 tutti uguali*/
+				if (state == run)
+					output_run(os);
+				else
+					output_nonrun(os);
+
+				/*Pulisco il buffer*/
+				_prev.clear();
+			}
+
 		} //fine del while che scorre tutto il file!
 
+		/*Ho finito di scorrere tutto il file: potrei avere il buffer con qualcosa*/
+		if (state == run)
+			output_run(os);
+		else
+			output_nonrun(os);
 
+		/*E per concludere, scrivo 128*/
+		os.put(128);
 	}
 
-	void decode(istream &is, ostream &os){
+	void packbits::decode(istream &is, ostream &os){
 
+		char tmp;
+
+		while (is.get(tmp)){
+			byte L = tmp;
+
+			/*Se ho un valore inferiore a 128, non compressi: scrivo uno ad uno*/
+			if (L < 128){
+				for (int i = 0; i < L + 1; ++i)
+					os.put(is.get());
+			}
+			else if (L > 128){
+
+				/*Ho dei caratteri ripetuti! Quanti? 257 meno L!*/
+				L = 257 - L;
+
+				/*prendo il primo carattere (tanto sono tutti uguali)*/
+				is.get(tmp);
+
+				/*Scrivo L volte il carattere!*/
+				for (int i = 0; i < L; ++i){
+					os.put(tmp);
+				}
+			} else
+				/*Fine del file: il valore letto non è nè maggiore nè minore di 128 (è 128!)*/
+				break;
+		}
 	}
 };
