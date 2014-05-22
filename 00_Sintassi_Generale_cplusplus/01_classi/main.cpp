@@ -9,7 +9,6 @@ int main(){
 	/*Creo oggetto Auto con i valori dati. L'oggetto si chiama a*/
 	Auto a(1800, "Honda Civic", 7.0);
 
-	
 	/*For con passo 10. Invece di i, uso direttamente float*/
 	cout << "Ho creato la macchina " << a.getNome() << " di cilindrata " << a.getCilindrata() << endl;
 
