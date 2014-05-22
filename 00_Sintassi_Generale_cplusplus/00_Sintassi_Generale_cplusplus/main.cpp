@@ -1,10 +1,12 @@
 #include <iostream>
 
+using namespace std;
+
 int main(){
 	
-	std::cout << "Finalmente sono qua!";
+	cout << "Finalmente sono qua!" << endl;
 
-	std::cout << "Ciao Fre!";
+	cout << "Ciao Fre!";
 }
 
 //Sintassi_Generale_cplusplus

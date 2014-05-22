@@ -35,7 +35,6 @@ Classe Packbits: permette di eseguire l'encoding e decoding di uno stream (es: u
 
 
 */
-	
 
 	/*Quando ho finito una run, devo scrivere su file!*/
 	void packbits::output_run(ostream &os){
@@ -176,4 +175,3 @@ Classe Packbits: permette di eseguire l'encoding e decoding di uno stream (es: u
 				break;
 		}
 	}
-};

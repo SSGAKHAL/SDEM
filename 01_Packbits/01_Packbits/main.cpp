@@ -13,4 +13,10 @@ int main(){
 
 	ofstream os("output.pkb", ios::binary);
 	if (!os) return -1;
+
+	packbits pkb;
+
+	pkb.encode(is,os);
+
+
 }
