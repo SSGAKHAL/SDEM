@@ -90,17 +90,22 @@ void printFileOnConsole(ifstream& is){
 	cout << endl;
 }
 
+/*La classe nasce per poter SCRIVERE in uno stream qualunque n bit. Tuttavia, non si può
+scrivere un bit alla volta quindi bisogna prima aggreggare i bit da scrivere e non appena
+se ne hanno 8, si procede a scrivere in output*/
 class bitwriter {
-	std::ostream& _os;
-	unsigned char _buffer;
-	int _bits;
 
-	// Aggiunge il bit meno significativo di u al buffer
-	void write_bit(unsigned u) {
-		_buffer = (_buffer << 1) | (u & 1);
-		if (++_bits == 8) {
-			_os.put(_buffer);
-			_bits = 0;
+	ostream& _os;			//steam di output
+	byte _buffer;	//buffer che si riempie delle micro operazioni che voglio fare, bit per bit
+	int _bits;				//conta quante micro operazioni ho fatto. appena sono 8, scrivo!
+
+	
+	/*Scrivo un singolo bit nel _buffer*/
+	void writeBit(unsigned u) {
+		_buffer = (_buffer << 1) | (u & 1); //Aggiungo il bit meno significativo di u al buffer
+		if (++_bits == 8) {					//non appena ho 8 scritture, sono pronto a
+			_os.put(_buffer);				//scrivere sullo stream il buffer!
+			_bits = 0;						//riazzero il conto
 		}
 	}
 
@@ -109,37 +114,50 @@ class bitwriter {
 	bitwriter& operator= (const bitwriter&);
 
 public:
-	bitwriter(std::ostream& os) : _os(os), _bits(0) {}
+	/*Costruttore. Prende un ostream generico. Inizializza osstream, e mette conteggio dei bit a zero*/
+	bitwriter(ostream& os) : _os(os), _bits(0) {}
 
-	// Scrive sul bitstream i count bit meno significativi di u
+	/*Scrive un byte (8bit) i cui count bit meno significativi sono quelli di u*/
+	/*Esempio:
+		'z' = 122dec = 7Aexa = 0111.1010
+		bw('z',8)              0111.1010
+
+		In successione, fare bw('z,8'); bw('z',7); ...; bw('z',0), scrive:
+		01111010 0111101 011110 10110 1010 010 1 000000
+	
+	*/
 	void operator() (unsigned u, unsigned count) {
 		while (count > 0)
-			write_bit(u >> --count);
+			writeBit(u >> --count);
 	}
 
-	// Svuota il buffer sul file
+	/*Se ho scritto 2 bit, in ostream non ci va niente perchè aspetta 8 bit per scrivere
+	Questo assicura che i rimanenti 6 bit vengano scritto (tutti a 0).*/
 	void flush(unsigned fill_bit = 0) {
 		while (_bits > 0)
-			write_bit(fill_bit);
+			writeBit(fill_bit);
 	}
 
+	/*Quando si distrugge un bitwriter...*/
 	~bitwriter() {
-		flush();
+		flush(); //flusha!
 	}
 };
 
 class bitreader {
-	std::istream& _is;
-	unsigned char _buffer;
-	int _bits;
+	istream& _is;	//l'inputstream!
+	byte _buffer;	//il buffer - ovvero il byte poi da ritornare
+	int _bits;		//il numero di bit letti
 
 	// Aggiunge il bit meno significativo di u al buffer
-	unsigned read_bit() {
+	unsigned readBit() {
+
+		//come prima cosa (costruttore: :bits=0) leggo il char. Poi dico che devo leggere 8 bit
 		if (_bits == 0) {
-			_is.get(reinterpret_cast<char&>(_buffer));
-			_bits = 8;
+			_is.get(reinterpret_cast<char&>(_buffer)); //casto per dire che _buffer è un char&
+			_bits = 8;		//e poi mi preparo a leggere altri 8 bit						   	
 		}
-		return (_buffer >> --_bits) & 1;
+		return (_buffer >> --_bits) & 1; //ritorno shiftato di bits 
 	}
 
 	// Non si deve né copiare né assegnare!
@@ -147,16 +165,19 @@ class bitreader {
 	bitreader& operator= (const bitreader&);
 
 public:
-	bitreader(std::istream& is) : _is(is), _bits(0) {}
+	/*Costruttore*/
+	bitreader(istream& is) : _is(is), _bits(0) {}
 
-	operator std::istream&() { return _is; }
+	operator istream&() { return _is; }
 
-	// Legge dal bitstream i count bit richiesti e li mette nei bit meno significativi del risultato
+	/*Legge dal bitstream i count bit richiesti e li mette nei bit meno significativi del risultato
+	Ovvero: br(3) del byte 11001100 legge i 3 bit meno significativi 100 
+	*/
 	unsigned operator() (unsigned count) {
 		unsigned u = 0;
-		while (count-- > 0)
-			u = (u << 1) | read_bit();
-		return u;
+		while (count-- > 0) //faccio count volte
+			u = (u << 1) | readBit(); //lo shift di u con readbit()
+		return u;	//per ritornare il byte corrispondente!
 	}
 };
 
@@ -166,22 +187,40 @@ int main(){
 
 	//decommenta!
 
-	//Leggo un byte alla volta il file e lo stampo in console
+	/*================================= Leggere un byte alla volta ================================*/
 	//leggiUnByteAllaVolta("file");
 
-	//Leggo a linee il file
+	/*====================================== Leggere una linea alla volta   =======================*/
 	//leggiLineeFile("immagine.pgm"); //immagine in formato P2
 
-	//Dimensione del file!
+	/*=============================== Ottenere dimensione del file  ===============================*/
 	//cout << "la lunghezza del file e' di: " << lunghezzaFile("file_con_solo_una_parola") << " byte." << endl;
 
-	//stampa il valore di un bit
-	printByteOnConsole('a'); cout << endl;			//stampa 0110.0001 che è 61exa, e 97 decimale == lettera 'a' ASCII
-	printByteOnConsole(0x61); cout << endl;			//stampa 0110.0001 che è 61exa, e 97 decimale == lettera 'a' ASCII
-	printByteOnConsole('0x61'); cout << endl;		//stampa 0011.0001 che è 31exa, e 49 decimale == lettera '1' ASCII
-	printByteOnConsole('0x69'); cout << endl;		//stampa 0011.0001 che è 39exa, e 57 decimale == lettera '1' ASCII
-	
-	
-	printFileOnConsole(ifstream("file_con_solo_una_parola"));
+	/*==================================== Stampare i bit di un byte ==========================*/
+	//printByteOnConsole('a'); cout << endl;			//stampa 0110.0001 che è 61exa, e 97 decimale == lettera 'a' ASCII
+	//printByteOnConsole(0x61); cout << endl;			//stampa 0110.0001 che è 61exa, e 97 decimale == lettera 'a' ASCII
+	//printByteOnConsole('0x61'); cout << endl;		//stampa 0011.0001 che è 31exa, e 49 decimale == lettera '1' ASCII
+	//printByteOnConsole('0x69'); cout << endl;		//stampa 0011.0001 che è 39exa, e 57 decimale == lettera '1' ASCII
 
+	//printFileOnConsole(ifstream("file_con_solo_una_parola"));
+
+	//ofstream os("vediamo", ios::binary);
+	//bitwriter bw(os);
+	//cout << "Le seguenti istruzioni producono dei bit. Vanno letti x alla volta, dove x è il secondo parametro" << endl;
+	//bw('z', 2);
+	//bw('z', 7);
+	//bw('z', 6);
+	//bw('z', 5);
+
+	//ifstream is("file_con_solo_lettera_U", ios::binary);
+	//bitreader br(is);
+	//printByteOnConsole(br(0)); cout << endl;
+	//printByteOnConsole(br(1)); cout << endl;
+	//printByteOnConsole(br(2)); cout << endl;	
+	//printByteOnConsole(br(3)); cout << endl;
+	//printByteOnConsole(br(4)); cout << endl;
+	///printByteOnConsole(br(5)); cout << endl;
+	//printByteOnConsole(br(6)); cout << endl;
+	//printByteOnConsole(br(7)); cout << endl;
+	//printByteOnConsole(br(8)); cout << endl;
 }
