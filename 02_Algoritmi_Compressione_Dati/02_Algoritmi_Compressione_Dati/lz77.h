@@ -10,12 +10,12 @@
 class lz77{
 
 	/*Dizionario di caratteri che memorizzo mano a mano*/
-	std::vector<byte> _dizionario;
+	std::string _dizionario;
 
 public:
 	
 	/*Costruttore. Prende un inputstream e un outputstream*/
-	lz77(){}
+	lz77();
 
 	/*Codifica l'inputstream nell'outputstream*/
 	void encode(std::istream& is, std::ostream& os);
