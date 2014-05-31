@@ -12,8 +12,6 @@ typedef unsigned char byte;
 /*Leggo il file un byte alla volta e stampo ogni byte in console*/
 int leggiUnByteAllaVolta(string inputFile){
 
-	cout << "Leggo un byte alla volta:" << endl << endl;
-
 	ifstream is(inputFile);
 	if (!is) return -1;
 
@@ -57,30 +55,26 @@ int lunghezzaFile(const string& nomefile){
 	return is.tellg();
 }
 
-/*Posizione deve essere tra 0 e 1*/
+
+/**********************************   Operazioni sui Bit    **********************************/
+
+/*Shifto il byte di n posizioni e faccio l'AND bit a bit. In pratica estraggo il bit richiesto!*/
 bool getBit(byte byte, int position){
 	return (byte >> position) & 0x1;
 }
 
-/*Ritorna 1 o 0 char*/
-char getPrintableBit(bool x){
-	if (x) return '1';
-	else return '0';
-}
-
 /*stampa su stdout il byte dato*/
 void printByteOnConsole(byte b){
-
-	for (size_t i = 0; i <= 7; i++){
-		cout << getPrintableBit(getBit(b, i));
+	
+	for (int i = 7; i >= 0; --i){
+		cout << getBit(b, i);
 	}
 
-	cout << " "; //separo i byte
+	cout << " "; //separo ogni 8 byte
 }
 
-void printFileOnConsole(const string& nomefile){
-
-	ifstream is(nomefile);
+/*Stampa l'ifstream dato!*/
+void printFileOnConsole(ifstream& is){
 
 	char ch;
 	int tmp = 8;
@@ -95,7 +89,6 @@ void printFileOnConsole(const string& nomefile){
 
 	cout << endl;
 }
-
 
 class bitwriter {
 	std::ostream& _os;
@@ -167,6 +160,8 @@ public:
 	}
 };
 
+/*********************************************************************************************/
+
 int main(){
 
 	//decommenta!
@@ -181,7 +176,12 @@ int main(){
 	//cout << "la lunghezza del file e' di: " << lunghezzaFile("file_con_solo_una_parola") << " byte." << endl;
 
 	//stampa il valore di un bit
-
-	printFileOnConsole("file_con_solo_una_parola");
+	printByteOnConsole('a'); cout << endl;			//stampa 0110.0001 che è 61exa, e 97 decimale == lettera 'a' ASCII
+	printByteOnConsole(0x61); cout << endl;			//stampa 0110.0001 che è 61exa, e 97 decimale == lettera 'a' ASCII
+	printByteOnConsole('0x61'); cout << endl;		//stampa 0011.0001 che è 31exa, e 49 decimale == lettera '1' ASCII
+	printByteOnConsole('0x69'); cout << endl;		//stampa 0011.0001 che è 39exa, e 57 decimale == lettera '1' ASCII
+	
+	
+	printFileOnConsole(ifstream("file_con_solo_una_parola"));
 
 }
