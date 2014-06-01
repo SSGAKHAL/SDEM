@@ -80,9 +80,11 @@
   <ItemGroup>
     <ClCompile Include="lz77.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="packbits.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lz77.h" />
+    <ClInclude Include="packbits.h" />
     <ClInclude Include="support.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

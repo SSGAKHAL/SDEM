@@ -21,12 +21,18 @@
     <ClCompile Include="lz77.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="packbits.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lz77.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="support.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="packbits.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
