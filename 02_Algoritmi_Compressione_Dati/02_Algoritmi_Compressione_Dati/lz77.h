@@ -10,7 +10,12 @@
 class lz77{
 
 	/*Dizionario di caratteri che memorizzo mano a mano*/
-	std::string _dizionario;
+	std::string _searchBuffer;
+
+	/*LookAhead Buffer*/
+	std::string _lb;
+
+	void scriviTerna(std::ostream&, int, int, char);
 
 public:
 	
