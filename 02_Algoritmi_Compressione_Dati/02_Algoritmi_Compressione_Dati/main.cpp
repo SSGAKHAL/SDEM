@@ -29,7 +29,23 @@ int main(){
 		//lz.decode(ifstream("lz77_compresso"),ofstream("prova"));
 	}
 
+	/************************************************************************/
+	/************************************************************************/
+	/* Packbits è un algoritmo Run Lenght. È fatto da coppie (num,car)      */
+	/* dove num:															*/
+	/*		1-127	= non compressi											*/
+	/*		128		= EOF													*/
+	/*		129-257	= compressi												*/
+	/*																		*/
+	/*	Es: b a c d a a a													*/
+	/*		3 bacd 254 a 128												*/
+	/*		3=4 caratteri "puri" -1;										*/
+	/*		254=257-3 perchè ho 3 caratteri che si ripetono					*/
+	/*																		*/
+	/************************************************************************/
+	/************************************************************************/
 	if (_pac){
+		//metto le graffe perchè così si aprono/chiudono correttamente tutti gli stream
 		{
 			ifstream is("file_input\\pack_file", ios::binary);
 			if (!is) { cerr << "Impossibile aprire file input"; return -1; }
