@@ -55,6 +55,50 @@ int lunghezzaFile(const string& nomefile){
 	return is.tellg();
 }
 
+void leggiConEstrattore(const string& nomefile){
+
+	ifstream is(nomefile, ios::binary);
+	if (!is) return;
+
+	/*Il file è fatto così
+	
+			1)	1			//UN SOLO numero di una cifra
+			2)	abc			//TRE CARATTERI diversi
+			3)	defgh		//UNA SOLA STRINGA
+			4)	1234		//UN SOLO numero di una cifra
+			5)	parola 5	//Una stringa, uno spazio e un numero
+			6)	123 456		//numero spazio numero
+	*/
+
+	int uno;
+	char a, b, c;
+	string stringa;
+	int bignumero;
+	string tutto;
+	int larghezza, altezza;
+
+	is >> uno;
+
+	is >> a;
+	is >> b;
+	is >> c;
+
+	is >> stringa;
+
+	is >> bignumero;
+
+	is >> tutto;
+	is >> larghezza >> altezza;
+
+	
+	cout << "int:\t\t" << uno << endl;
+	cout << "3 chars\t\t" << a << b << c << endl;
+	cout << "stringa:\t\t" << stringa << endl;
+	cout << "int:\t\t" << bignumero << endl;
+	cout << "stringa:\t\t" << tutto << endl;  //parola si mangia tutto, anche lo spazio!!
+	cout << larghezza << altezza << endl;		//non ha senso! O meglio, dipende dall'input. Deve essere scritto non tradotto insomma!
+}
+
 
 /**********************************   Operazioni sui Bit    **********************************/
 
@@ -223,4 +267,6 @@ int main(){
 	//printByteOnConsole(br(6)); cout << endl;
 	//printByteOnConsole(br(7)); cout << endl;
 	//printByteOnConsole(br(8)); cout << endl;
+
+	leggiConEstrattore("file_estrattore");
 }
