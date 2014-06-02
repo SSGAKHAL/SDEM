@@ -15,7 +15,8 @@ using namespace std;
 /*Compilalo in RELEASE! è inefficiente ma chissene, funziona*/
 int main(){
 
-	ifstream is("bibbia.txt", ios::binary|ios::skipws);
+	ifstream is("bibbia.txt", ios::binary);
+	is.unsetf(ios::skipws);	//salta i whitespace, non ho capito a che minchia server
 
 	vector<Coppia> coppie;
 
@@ -48,6 +49,7 @@ int main(){
 
 	ofstream os("output.txt");
 	for (auto a : coppie){
-		os << a.getChar() << "\t" << a.getNum() << endl;
+		os << (int)a.getChar() << "\t" << a.getNum() << endl;
+		//os << a.getChar() << "\t" << a.getNum() << endl; se vuoi vedere il carattere
 	}
 }
