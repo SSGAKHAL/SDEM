@@ -81,7 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="image.h" />
-    <ClInclude Include="image_ops.h" />
+    <ClInclude Include="images_operations.h" />
     <ClInclude Include="pgm.h" />
     <ClInclude Include="support.h" />
   </ItemGroup>

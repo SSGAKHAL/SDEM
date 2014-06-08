@@ -6,6 +6,7 @@
 #include <iostream>
 
 typedef unsigned char byte;
+typedef unsigned int uint;
 
 void apriImmagine(std::string nomeFileImmagine){
 	
@@ -16,7 +17,7 @@ void apriImmagine(std::string nomeFileImmagine){
 	tmp+=nomeFileImmagine;
 
 	/*Eseguo script*/
-	std::cout << "Inizio esecuzione programma esterno" << endl;
+	std::cout << "Inizio esecuzione programma esterno" << std::endl;
 	system(tmp.c_str()); //stdlib.h, e uso c_str di string per avere il const char
 };
 

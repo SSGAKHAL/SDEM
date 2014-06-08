@@ -26,13 +26,13 @@
     <ClInclude Include="image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="image_ops.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="support.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pgm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="images_operations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

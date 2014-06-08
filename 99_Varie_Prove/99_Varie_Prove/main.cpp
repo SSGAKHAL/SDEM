@@ -119,8 +119,6 @@ int main(){
 	//for (per 512)
 	//coefficienti.push_back()
 
-
-
 	//system("ffplay.exe -f prova_mdct.raw s16le");
 
 

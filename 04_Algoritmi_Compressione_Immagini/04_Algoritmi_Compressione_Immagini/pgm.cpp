@@ -58,20 +58,28 @@ bool readP2(const string& sFileName, image<byte>& img) {
 
 	unsigned w, h, max_val;
 
-	if (!(is >> w >> h >> max_val) || max_val != 255)	//ehhhh???
+	if (!(is >> w >> h >> max_val) || max_val != 255)							//Leggo, IN BINARIO con l'operatore estrattore >>. Leggo in ordine larghezza, altezza e valore massimo.
+																				//Controllo inoltre che valore massimo sia 255!
 		return false;
 
+	/*Ultimo a capo!*/
 	char lastLF;
-	if (!is.get(lastLF) || lastLF != '\n')
+	if (!is.get(lastLF) || lastLF != '\n')	//Leggo l'ultimo carattere dell'header, che è un \n. Se non lo è, esco
 		return false;
 
+	/*Creo lo spazio per w*h elementi*/
 	img.resize(w, h);
 
-	for (unsigned y = 0; y < img.height(); ++y) {
-		for (unsigned x = 0; x < img.width(); ++x) {
+	/*Prendo tutti i dati, per righe*/
+	for (unsigned y = 0; y < img.height(); ++y) {		//per tutte le righe
+		for (unsigned x = 0; x < img.width(); ++x) {	//per tutte le colonne
+
+			/*Prendo il valore del pixel, di nuovo, in binario!*/
 			unsigned val;
-			if (!(is >> val) || val>255)
+			if (!(is >> val) || val>255)	//fino alla fine del file o se ho un valore troppo grande
 				return false;
+
+			/*Se ho preso bene il valore, lo metto castandolo a byte in img(x,y)*/
 			img(x, y) = static_cast<byte>(val);
 		}
 	}

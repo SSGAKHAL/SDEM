@@ -43,7 +43,7 @@ public:
 	/*Crea un oggetto image con larghezza e alterzza specificata*/
 	image(unsigned w, unsigned h) : _w(w), _h(h), _data(w*h) {}
 
-	/*Il metodo ridefinisce la grandezza dell'immagine. È come fare tre setter*/
+	/*Il metodo ridefinisce la grandezza dell'immagine. È come fare tre setter. Il vettore dati inizializzato a 0*/
 	void resize(unsigned w, unsigned h) {
 		_w = w;
 		_h = h;

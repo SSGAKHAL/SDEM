@@ -18,7 +18,8 @@ int leggiUnByteAllaVolta(string inputFile){
 	char tmp;
 	while (is.get(tmp)){
 		byte L = tmp;
-		cout << L; //L contiene un numero. se viene letto un carattere, viene letto il numero ASCII corrispondente
+		cout << L; //L contiene un numero. se viene letto un carattere, viene letto 
+					//il numero ASCII corrispondente
 		if (L >= 48 && L <= 57){
 			cout << endl << "Ho letto un numero!!! -> " << L - 48 << endl;
 		}
@@ -27,7 +28,8 @@ int leggiUnByteAllaVolta(string inputFile){
 	return 0;
 }
 
-/*Questa funzione legge la prima riga di un file (fino al \n). leggo il magic number di un file pgm P2*/
+/*Questa funzione legge la prima riga di un file (fino al \n). leggo il magic 
+number di un file pgm P2*/
 int leggiLineeFile(const string& nomefile){
 
 	ifstream is(nomefile, ios::binary);
@@ -45,7 +47,7 @@ int leggiLineeFile(const string& nomefile){
 		
 	cout << "ho letto: " << magic;
 
-	//la testina ora è appena dopo il /n. Posso continuare a leggere il file per righe
+	//la testina ora è appena dopo il /n.Posso continuare a legger il file per righe
 	return 0;
 }
 
@@ -95,14 +97,16 @@ void leggiConEstrattore(const string& nomefile){
 	cout << "3 chars\t\t" << a << b << c << endl;
 	cout << "stringa:\t\t" << stringa << endl;
 	cout << "int:\t\t" << bignumero << endl;
-	cout << "stringa:\t\t" << tutto << endl;  //parola si mangia tutto, anche lo spazio!!
-	cout << larghezza << altezza << endl;		//non ha senso! O meglio, dipende dall'input. Deve essere scritto non tradotto insomma!
+	cout << "stringa:\t\t" << tutto << endl;//parola si mangia tutto, anche spazio!
+	cout << larghezza << altezza << endl;//non ha senso! O meglio, dipende dall'
+	//input. Deve essere scritto non tradotto insomma!
 }
 
 
-/**********************************   Operazioni sui Bit    **********************************/
+/***********************   Operazioni sui Bit    ***********************/
 
-/*Shifto il byte di n posizioni e faccio l'AND bit a bit. In pratica estraggo il bit richiesto!*/
+/*Shifto il byte di n posizioni e faccio l'AND bit a bit. In pratica estraggo il 
+bit richiesto!*/
 bool getBit(byte byte, int position){
 	return (byte >> position) & 0x1;
 }
@@ -134,20 +138,22 @@ void printFileOnConsole(ifstream& is){
 	cout << endl;
 }
 
-/*La classe nasce per poter SCRIVERE in uno stream qualunque n bit. Tuttavia, non si può
-scrivere un bit alla volta quindi bisogna prima aggreggare i bit da scrivere e non appena
-se ne hanno 8, si procede a scrivere in output*/
+/*La classe nasce per poter SCRIVERE in uno stream qualunque n bit. Tuttavia, non si 
+può scrivere un bit alla volta quindi bisogna prima aggreggare i bit da scrivere e 
+non appena se ne hanno 8, si procede a scrivere in output*/
 class bitwriter {
 
 	ostream& _os;			//steam di output
-	byte _buffer;	//buffer che si riempie delle micro operazioni che voglio fare, bit per bit
-	int _bits;				//conta quante micro operazioni ho fatto. appena sono 8, scrivo!
+	byte _buffer;	//buffer che si riempie delle micro operazioni che voglio fare, 
+					//bit per bit
+	int _bits;				//conta quante micro operazioni ho fatto. 
+							//appena sono 8, scrivo!
 
 	
 	/*Scrivo un singolo bit nel _buffer*/
 	void writeBit(unsigned u) {
-		_buffer = (_buffer << 1) | (u & 1); //Aggiungo il bit meno significativo di u al buffer
-		if (++_bits == 8) {					//non appena ho 8 scritture, sono pronto a
+		_buffer = (_buffer << 1) | (u & 1); //Add il bit meno signifi di u al buffer
+		if (++_bits == 8) {					//non appena ho 8 scritt, sono pronto a
 			_os.put(_buffer);				//scrivere sullo stream il buffer!
 			_bits = 0;						//riazzero il conto
 		}
@@ -158,7 +164,8 @@ class bitwriter {
 	bitwriter& operator= (const bitwriter&);
 
 public:
-	/*Costruttore. Prende un ostream generico. Inizializza osstream, e mette conteggio dei bit a zero*/
+	/*Costruttore. Prende un ostream generico. Inizializza osstream, e mette 
+	conteggio dei bit a zero*/
 	bitwriter(ostream& os) : _os(os), _bits(0) {}
 
 	/*Scrive un byte (8bit) i cui count bit meno significativi sono quelli di u*/
@@ -175,8 +182,8 @@ public:
 			writeBit(u >> --count);
 	}
 
-	/*Se ho scritto 2 bit, in ostream non ci va niente perchè aspetta 8 bit per scrivere
-	Questo assicura che i rimanenti 6 bit vengano scritto (tutti a 0).*/
+	/*Se ho scritto 2 bit, in ostream non ci va niente perchè aspetta 8 bit per 
+	scrivere Questo assicura che i rimanenti 6 bit vengano scritto (tutti a 0).*/
 	void flush(unsigned fill_bit = 0) {
 		while (_bits > 0)
 			writeBit(fill_bit);
@@ -196,9 +203,11 @@ class bitreader {
 	// Aggiunge il bit meno significativo di u al buffer
 	unsigned readBit() {
 
-		//come prima cosa (costruttore: :bits=0) leggo il char. Poi dico che devo leggere 8 bit
+		//come prima cosa (costruttore: :bits=0) leggo il char. Poi dico che devo 
+		//leggere 8 bit
 		if (_bits == 0) {
-			_is.get(reinterpret_cast<char&>(_buffer)); //casto per dire che _buffer è un char&
+			_is.get(reinterpret_cast<char&>(_buffer)); //casto per dire che _buffer 
+														//è un char&
 			_bits = 8;		//e poi mi preparo a leggere altri 8 bit						   	
 		}
 		return (_buffer >> --_bits) & 1; //ritorno shiftato di bits 
