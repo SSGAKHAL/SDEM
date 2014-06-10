@@ -18,7 +18,7 @@ int leggiUnByteAllaVolta(string inputFile){
 	char tmp;
 	while (is.get(tmp)){
 		byte L = tmp;
-		cout << L; //L contiene un numero. se viene letto un carattere, viene letto 
+		cout << L; //L contiene un numero. se viene letto un carattere, viene letto
 					//il numero ASCII corrispondente
 		if (L >= 48 && L <= 57){
 			cout << endl << "Ho letto un numero!!! -> " << L - 48 << endl;
@@ -34,7 +34,7 @@ int leggiLineeFile(const string& nomefile){
 
 	ifstream is(nomefile, ios::binary);
 	if (!is) {
-		cerr << "Errore apertura file"; 
+		cerr << "Errore apertura file";
 		return -1;
 	}
 
@@ -56,7 +56,7 @@ int lunghezzaFile(const string& nomefile){
 	ifstream is(nomefile, ios::ate); //ate lascia la testina alla fine del file
 	return is.tellg();
 }
-
+	
 void leggiConEstrattore(const string& nomefile){
 
 	ifstream is(nomefile, ios::binary);

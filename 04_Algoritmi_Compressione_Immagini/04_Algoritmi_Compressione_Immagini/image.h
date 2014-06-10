@@ -68,6 +68,13 @@ public:
 	/*Quanto è grande l'immagine (escluso header). Ovvero altezza*larghezza*dimensionePixel*/
 	unsigned data_size() const { return _w*_h*sizeof(T); }
 
+	typedef typename std::vector<T>::iterator iterator;
+	typedef typename std::vector<T>::const_iterator const_iterator;
+
+	iterator begin(){ return _data.begin(); }
+	const_iterator begin(){ return _data.begin();}
+
+
 };
 
 #endif // IMAGE_H
