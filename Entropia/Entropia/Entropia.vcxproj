@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3C019BBE-040F-4CEC-8D40-B946AF3C9754}</ProjectGuid>
+    <ProjectGuid>{E58A94F9-2BA3-4CA4-AFB7-307E89CC6269}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>My04_Algoritmi_Compressione_Immagini</RootNamespace>
+    <RootNamespace>Entropia</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -77,15 +77,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="pgm.cpp" />
-    <ClCompile Include="ppm.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="image.h" />
-    <ClInclude Include="images_operations.h" />
-    <ClInclude Include="pgm.h" />
-    <ClInclude Include="ppm.h" />
-    <ClInclude Include="support.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

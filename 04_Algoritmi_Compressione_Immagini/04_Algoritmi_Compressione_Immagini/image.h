@@ -72,7 +72,12 @@ public:
 	typedef typename std::vector<T>::const_iterator const_iterator;
 
 	iterator begin(){ return _data.begin(); }
-	const_iterator begin(){ return _data.begin();}
+	const_iterator begin() const { return _data.begin();}	//è come un normale _data.begin(), ma è const
+
+	iterator end(){ return _data.end(); }
+	const_iterator end() const { return _data.end(); }
+
+
 
 
 };

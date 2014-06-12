@@ -17,6 +17,42 @@ void flip(image<T>& img) {
 	}
 }
 
+/*Operazione di saturazione, che ritorna un byte dato un double*/
+byte saturate(double d) {
+	int i = static_cast<int>(d + 0.5);	//intanto casto a + 0,5
+	
+	if (i<0)	//se sono sotto 0, torno 0
+		return 0;
+	else if (i>255)	//se sono sopra 255, torno 255
+		return 255;
+	else
+		return i;	//se sono tra 0 e 255, torno quel valore
+}
+
+vec3b RGB2YCbCr(const vec3b& in) {
+	double R = in[0];
+	double G = in[1];
+	double B = in[2];
+
+	double Y = 16. + 1. / 256. * (65.738  * R + 129.057  * G + 25.064  * B);
+	double Cb = 128. + 1. / 256. * (-37.945  * R - 74.494  * G + 112.439  * B);
+	double Cr = 128. + 1. / 256. * (112.439  * R - 94.154  * G - 18.285  * B);
+
+	return vec3b(saturate(Y), saturate(Cb), saturate(Cr));
+}
+
+vec3b YCbCr2RGB(const vec3b& in) {
+	double Y = in[0];
+	double Cb = in[1];
+	double Cr = in[2];
+
+	double R = (298.082 * Y + 408.583 * Cr) / 256. - 222.921;
+	double G = (298.082 * Y - 100.291 * Cb - 208.120 * Cr) / 256. + 135.576;
+	double B = (298.082 * Y + 516.412 * Cb) / 256. - 276.836;
+
+	return vec3b(saturate(R), saturate(G), saturate(B));
+}
+
 image<byte> createBlackImage(uint w, uint h){
 	image<byte> tmp(w, h);
 	for (uint i = 0; i < tmp.height(); i++){	//per tutte le righe                 
