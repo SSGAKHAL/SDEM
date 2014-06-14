@@ -21,7 +21,7 @@ void apriImmagine(std::string nomeFileImmagine){
 	system(tmp.c_str()); //stdlib.h, e uso c_str di string per avere il const char
 };
 
-/*Classe template con 4 costruttori: vuoto, un parametro, due o tre*/
+/*Classe template per RGB con 4 costruttori: vuoto, un parametro, due o tre*/
 template <typename tipo, int n>
 struct vec{
 

@@ -81,6 +81,7 @@
     <ClCompile Include="ppm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dct.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="images_operations.h" />
     <ClInclude Include="pgm.h" />

@@ -41,5 +41,11 @@
     <ClInclude Include="lz78.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lzw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

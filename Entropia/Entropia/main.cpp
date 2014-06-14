@@ -13,16 +13,10 @@ struct Coppia{
 	Coppia(unsigned a, short b) : occorrenze(a), valore(b){};
 };
 
-//template <typename T1>
-//struct greater{
-//	
-//	bool operator()(type const& a, type const& b){
-//		return a > b;
-//	}
-//};
-
 float entropia(vector<short>& sample){
 
+	/*Se fgaccio una sort. Volendo l'algoritmo si può migliorare e
+	interrompere la ricerca non appena ho valore diverso*/
 	sort(sample.begin(), sample.end());
 
 	float h =  0.0;
@@ -66,7 +60,6 @@ float entropia(vector<short>& sample){
 	}
 
 	h = -h;
-	//cout << h << endl;
 
 	/*Calcolo tutte le occorrenze*/
 	return h;
