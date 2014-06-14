@@ -3,7 +3,6 @@
 #include "support.h"
 #include "packbits.h"
 
-
 using namespace std;
 
 

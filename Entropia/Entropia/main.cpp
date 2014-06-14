@@ -75,12 +75,11 @@ float entropia(vector<short>& sample){
 
 int main(){
 
-	ifstream is("audio_originale.raw", ios::binary);
+	/*Apro il file*/
+	ifstream is("audio_originale.raw", ios::binary | ios::ate);
 	if (!is) return -1;
 
-
 	/*Prendo dimensione del file*/
-	is.seekg(0, ios::end);
 	unsigned file_size = unsigned(is.tellg());
 	is.seekg(0, ios::beg);
 
@@ -91,11 +90,6 @@ int main(){
 	
 	/*Popolo il vettore campioni leggendo in un botto solo file_size elementi, castati a char puntatore*/
 	is.read(reinterpret_cast<char*>(campioni.data()), file_size);
-
-
-	/*Calcoliamo l'entropia del vettore*/
-	//calcola la frequenza di tutto
-	//si calcola la probabilità di ogni simbolo
 
 	//vector<short> campioni;
 	//campioni.push_back(3);

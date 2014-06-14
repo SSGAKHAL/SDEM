@@ -5,7 +5,6 @@
 #include "image.h"
 #include "support.h"
 
-
 template<typename T>
 
 /*Rovescia una immagine di 180 gradi*/
@@ -136,31 +135,6 @@ image<byte> createFoglioCartaQuadrettata(uint w, uint h){
 	return tmp;
 }
 
-/*Colora un blocco di pixel dell'immagine data! Si da il pixel più in alto a 
-sinistra e quello più in basso a destra*/
-void coloraBlocco(uint startx, uint starty, uint endx, uint endy, uint colore, 
-	image<byte>& img){
-
-	uint npixelx = (endx - startx);
-	uint npixely = (endy - starty);
-
-	for (uint i = npixelx; i < npixelx; ++i){
-		for (uint j = npixely; j < npixely; ++j){
-			img(npixelx-j, npixely-i) = colore;
-		}
-	}
-}
-
-void coloraBlocchi(uint start, uint end, uint colore, image<byte>& img){
-
-	uint nblocchi = (end-start);
-
-	for (uint i = start; i < nblocchi; ++i){
-			//coloraBlocco(i, i+10,colore,img);
-	}
-
-}
-
 /*Fa dei blocchi w/10 bianchi e neri in sequenza*/
 image<byte> createScacchiera(uint w, uint h){
 
@@ -175,7 +149,40 @@ image<byte> createScacchiera(uint w, uint h){
 	return tmp;
 }
 
+/*Ritorna un carattere secondo lo standard JPEG
+0	1
+1	2
+-1	3
+2	4
+-2	5
+3	6
+-3	7
+...
+*/
+char mappatura(byte c){
+	if (c == 1) return 0;
+	else {
+		if (c % 2 == 0)return c / 2;
+		else return -(c / 2);
+	}
+}
 
+/*Scrive un blocco 8x8 con il colore dato alle coordinate specificate.
+Le coordinate indicano il pixel in alto a sinistra
+*/
+void colorablocco(image<byte>& img, unsigned x1, unsigned y1, byte colore){
+
+	unsigned f = 0;
+	unsigned y = 0;
+
+	for (int i = 0; i < 8; i++){
+		for (int j = 0; j < 8; j++){
+			img(x1 + j, y1 + i) = colore;
+			f++;
+		}
+		y++;
+	}
+}
 
 
 

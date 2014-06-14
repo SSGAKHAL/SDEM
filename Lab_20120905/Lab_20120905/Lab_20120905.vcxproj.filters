@@ -18,27 +18,24 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lz77.cpp">
+    <ClCompile Include="pgm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="packbits.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="lz78.cpp">
+    <ClCompile Include="E:\sdem\dct_fragola\dct_fragola\maindue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lz77.h">
+    <ClInclude Include="pgm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="support.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="packbits.h">
+    <ClInclude Include="image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lz78.h">
+    <ClInclude Include="bitstream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

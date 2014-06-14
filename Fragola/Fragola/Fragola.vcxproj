@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F0ADEEE2-6A27-4C55-987D-ED50EFD298E6}</ProjectGuid>
+    <ProjectGuid>{A04DDF70-5A0C-4282-A8C8-73C829A17E4C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>My02_Algoritmi_Compressione_Dati</RootNamespace>
+    <RootNamespace>Fragola</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -52,7 +52,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -68,7 +67,6 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -78,16 +76,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="lz77.cpp" />
-    <ClCompile Include="lz78.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="packbits.cpp" />
+    <ClCompile Include="pgm.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lz77.h" />
-    <ClInclude Include="lz78.h" />
-    <ClInclude Include="packbits.h" />
-    <ClInclude Include="support.h" />
+    <ClInclude Include="image.h" />
+    <ClInclude Include="pgm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

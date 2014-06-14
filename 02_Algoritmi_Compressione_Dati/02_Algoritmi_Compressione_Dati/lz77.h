@@ -2,31 +2,30 @@
 #define LZ77_H
 
 #include <vector>
-#include <istream>
-#include <ostream>
+#include <string>
 
-#include "support.h"
-
-class lz77{
-
-	/*Dizionario di caratteri che memorizzo mano a mano*/
-	std::string _searchBuffer;
-
-	/*LookAhead Buffer*/
-	std::string _lb;
-
-	void scriviTerna(std::ostream&, int, int, char);
+class lz77_coder{
+	std::vector<unsigned char> _data;
+	std::vector<std::string> _codified;
 
 public:
-	
-	/*Costruttore. Prende un inputstream e un outputstream*/
-	lz77();
 
-	/*Codifica l'inputstream nell'outputstream*/
-	void encode(std::istream& is, std::ostream& os);
+	lz77_coder();
 
-	/*Codifica l'outputstream nell'inputstream*/
-	void decode(std::istream& is, std::ostream& os);
+	lz77_coder(std::string file);
 
+	lz77_coder(std::vector<unsigned char> data);
+
+	void read_data_from_file(std::string file);
+
+private:
+
+	void codify_data();
+
+public:
+	void codify_in_console();
+
+	void codify_in_file(std::string file);
 };
+
 #endif

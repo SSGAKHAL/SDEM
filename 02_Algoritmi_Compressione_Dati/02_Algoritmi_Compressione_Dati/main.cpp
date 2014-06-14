@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "lz77.h"
+#include "lz78.h"
 #include "packbits.h"
 
 using namespace std;
@@ -14,19 +15,34 @@ int main(){
 	bool _lzw = false;
 	bool _pac = true;
 
+	/************************************************************************/
+	/*							Codice di LZ77								*/
+	/*			In output una terna (pos, lun, ch successivo)				*/
+	/************************************************************************/
 	if (_77){
-		//ifstream ifs("lz77_testo_originale_da_comprimere.txt");
-		ifstream ifs("file_input\\prova");
-		ofstream ofs("file_output\\prova_compresso");
+		lz77_coder coder("input.bin");
+		coder.codify_in_console();
+		coder.codify_in_file("output.txt");
+	}
 
-		if (!ifs){ cerr << "Impossibile aprire file" << endl; return -1; }
-		if (!ofs){ cerr << "Impossibile scrivere file" << endl; return -1; }
+	/************************************************************************/
+	/*							Codice di LZ78								*/
+	/*	Ha un dizionario, output djhfjkdhkjfhd								*/
+	/************************************************************************/
+	if (_78){
 
-		lz77 lz;
-		lz.encode(ifs, ofs);
+		fstream f("testo.bin", fstream::out);
+		//aacaacabcabaaac
+		if (f.fail())
+			cout << "errore" << endl;
+		f << "aabaacabcabcb";
 
-		//ofs.close();
-		//lz.decode(ifstream("lz77_compresso"),ofstream("prova"));
+
+		f.close();
+
+		lz78 lz;
+		lz.codificalz78("testo.bin", 255);
+		lz.decodificalz78("coded.bin", 255);
 	}
 
 	/************************************************************************/
