@@ -1,7 +1,8 @@
 #ifndef BITSTREAMS_H
 #define BITSTREAMS_H
 
-#include <ostream>
+#include <fstream>
+
 typedef unsigned char byte;
 
 /*La classe nasce per poter SCRIVERE in uno stream qualunque n bit.Tuttavia, non si può
@@ -95,9 +96,13 @@ public:
 	}
 };
 
-/*Ritorna la lunghezza in bit di un elemento*/
+/*****************************************************************************/
+
+/*Ritorna la lunghezza in bit di un elemento di classe T
+NON FUNZIONA CON IL TIPO DOUBLE!*/
 template <class T>
-unsigned get_len(T el){
+unsigned getLunghezzaInBit(T el){
+
 	unsigned cont = 0;
 	while (el != 0){
 		el = el >> 1;
@@ -106,37 +111,4 @@ unsigned get_len(T el){
 	return cont;
 }
 
-template <class T>
-void write(T x, unsigned l){
-	if (!.is_open()){
-		cout << "Il file non e' aperto";
-		throw;
-	}
-	if (_mode == "in"){
-		cout << "Impossibile scrivere, file aperto in lettura";
-		throw;
-	}
-	unsigned dim = get_len<T>(x);//Guardo lunghezza in bit del dato da scrivere
-	if (dim > l){						//Se la dimensione è maggiore di quella max
-		return;							//C'è qualcosa che non va
-	}
-	vector<unsigned> bits(l);			//Istanzio il vettore con lunghezza fissa
-	fill(bits.begin(), bits.end(), 0);	//Lo riempio di zeri
-
-	/*
-	Salvo i bit dell'elemento dal meno significativo al più significativo.
-	Quindi ad esempio 8 che è 1000 lo salva 0001
-	*/
-	for (vector<unsigned>::iterator i = bits.begin(); i != bits.end() && x != 0; ++i){
-		*i = (1 & x);
-		x = x >> 1;
-	}
-	reverse(bits.begin(), bits.end());	//Lo giro per il motivo visto in precedenza
-
-	/* Scrivo i bit girati nel verso giusto */
-	for (vector<unsigned>::iterator i = bits.begin(); i != bits.end(); ++i){
-		write_bit(*i);
-	}
-}
-
-#endif // BITSTREAMS_H
+#endif
