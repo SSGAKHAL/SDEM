@@ -29,6 +29,13 @@ int main(){
 		
 		bitreader br(is);
 
+		//leggo 4 bit!
+		unsigned int risultato;
+		risultato = br(4);	//il primo byte è una a, cioè 97, cioè 0110.0001
+							//leggere 4 bit significa leggere 0110 cioè 6!
+		cout << "Ho letto 4 bit, quindi: " << risultato << endl;
+		cout << "Leggi altri 4 bit: " << br(4) << endl;	//cioè un uno!
+		cout << "Ne leggo 8, e dovrei leggere una b cioè 98" << br(8) << endl;
 
 
 	}

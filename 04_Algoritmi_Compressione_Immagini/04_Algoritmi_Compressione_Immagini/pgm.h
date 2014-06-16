@@ -10,8 +10,10 @@
 #include <string>
 
 #include "image.h"
+
 #include "support.h"
 
+/*Scrive PGM*/
 bool writeP2(const std::string& sFileName, const image<byte>& img);
 bool writeP5(const std::string& sFileName, const image<byte>& img);
 

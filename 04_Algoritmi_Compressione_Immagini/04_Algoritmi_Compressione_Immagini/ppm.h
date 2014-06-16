@@ -11,9 +11,9 @@
 */
 
 #include <string>
-
-#include "support.h"
 #include "image.h"
+#include "support.h"
+
 
 bool writeP3(const std::string& sFileName, const image<vec3b>& img);
 bool writeP6(const std::string& sFileName, const image<vec3b>& img);

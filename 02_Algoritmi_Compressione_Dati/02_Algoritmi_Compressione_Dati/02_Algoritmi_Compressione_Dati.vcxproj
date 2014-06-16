@@ -84,7 +84,6 @@
     <ClCompile Include="packbits.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dct.h" />
     <ClInclude Include="lz77.h" />
     <ClInclude Include="lz78.h" />
     <ClInclude Include="lzw.h" />

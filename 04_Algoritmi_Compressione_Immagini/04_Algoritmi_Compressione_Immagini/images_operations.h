@@ -1,6 +1,8 @@
 #ifndef IMAGES_OPERATIONS_H
 #define IMAGES_OPERATIONS_H
 
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include <algorithm>
 #include "image.h"
 #include "support.h"
@@ -16,6 +18,46 @@ void flip(image<T>& img) {
 	}
 }
 
+/*Crea immagine specchiata orizzontalmente*/
+template<typename T>
+image<T> specchiaOrizzontale(image<T>& img){
+
+	unsigned w = img.width();
+	unsigned h = img.height();
+
+	/*Creo un'immagine di copia identica*/
+	image<T> tmp = img;
+
+	/*E poi sovrascrivo le righe necessarie*/
+	for (unsigned y = 0; y < h / 2; ++y){
+		for (unsigned x = 0; x < w; ++x){
+			tmp(x, h - y - 1) = img(x, y);
+		}
+	}
+
+	return tmp;
+}
+
+/*Crea immagine specchiata orizzontalmente*/
+template<typename T>
+image<T> specchiaVerticale(image<T>& img){
+
+	unsigned w = img.width();
+	unsigned h = img.height();
+
+	/*Creo un'immagine di copia identica*/
+	image<T> tmp = img;
+
+	/*E poi sovrascrivo le righe necessarie*/
+	for (unsigned y = 0; y < h; ++y){
+		for (unsigned x = 0; x < w / 2; ++x){
+			tmp(w-x-1, y) = img(x, y);
+		}
+	}
+
+	return tmp;
+}
+
 /*Operazione di saturazione, che ritorna un byte dato un double*/
 byte saturate(double d) {
 	int i = static_cast<int>(d + 0.5);	//intanto casto a + 0,5
@@ -26,6 +68,106 @@ byte saturate(double d) {
 		return 255;
 	else
 		return i;	//se sono tra 0 e 255, torno quel valore
+}
+
+/*Crea immagine con solo bianco o solo nero*/
+template<typename T>
+image<T> blackANDWhite(image<T> &img, unsigned int media){
+
+	image<T> tmp = img;
+
+	for (unsigned y = 0; y < img.height(); ++y) {
+		for (unsigned x = 0; x < img.width(); ++x) {
+			if (tmp(x, y) < media){
+				tmp(x, y) = 0;
+			} else {
+				tmp(x, y) = 255;
+			}
+		}
+	}
+
+	return tmp;
+}
+
+
+void cyclic_roll(int &a, int &b, int &c, int &d)
+{
+	int temp = a;
+	a = b;
+	b = c;
+	c = d;
+	d = temp;
+}
+
+template<typename T>
+image<T> ruota90(image<T> &img){
+
+	image<T> tmp(img.height(),img.width());
+
+//	for (int i = 0; i<n / 2; i++)
+//		for (int j = 0; j<(n + 1) / 2; j++)
+//			cyclic_roll(m[i][j], m[n - 1 - j][i], m[n - 1 - i][n - 1 - j], m[j][n - 1 - i]);
+
+//	unsigned int r, c;
+//	for (r = 0; r < tmp.height(); r++)
+//	{
+//		for (c = 0; c < tmp.width(); c++)
+//		{
+//			tmp(c*y + (y - r - 1)) = img(r*x + c);
+//			//*(pD + c * row + (row - r - 1)) = *(pS + r * col + c);
+//		}
+//	}
+
+	
+	/*
+	//double teta = M_PI*0.5;
+	float teta = (90 * 3,1415) / 180.0;
+	cout << "teta vale: " << teta << endl;
+	double dovex = 0;
+	double dovey = 0;
+	byte pxl = 0;
+
+	for (unsigned y = 0; y < img.height(); ++y) {
+		for (unsigned x = 0; x < img.width(); ++x) {
+
+			pxl = img(x, y);
+			dovex = x*cos(teta) + y*sin(teta);
+			dovey = x*(-sin(teta)) + y*cos(teta);
+
+			//dovex = y;
+			//dovey = -x + y;
+			//if (!(dovey <= tmp.height() || dovex >= tmp.width()))
+			tmp(x1,y1) = pxl;
+			//tmp(dovex, dovey) = pxl;
+		}
+	}
+	*/
+	
+	
+	int r0, c0;
+	int r1, c1;
+	int rows, cols;
+	rows = img.width();
+	cols = img.height();
+
+	float rads = (90 * M_PI) / 180.0;
+
+	r0 = rows / 2;
+	c0 = cols / 2;
+
+	for (int r = 0; r < rows; ++r){
+		for (int c = 0; c < cols; ++c){
+			r1 = (int)(r0 + ((r - r0) * cos(rads)) - ((c - c0)*sin(rads)));
+			c1 = (int)(c0 + ((r - r0) * sin(rads)) - ((c - c0)*cos(rads)));
+
+			if (tmp.isInBounds(r1,c1))
+				tmp(r1, c1) = img(r, c);
+
+		}
+	}
+	
+	return tmp;
+
 }
 
 vec3b RGB2YCbCr(const vec3b& in) {
@@ -135,20 +277,6 @@ image<byte> createFoglioCartaQuadrettata(uint w, uint h){
 	return tmp;
 }
 
-/*Fa dei blocchi w/10 bianchi e neri in sequenza*/
-image<byte> createScacchiera(uint w, uint h){
-
-	image<byte> tmp(w, h);
-
-	/*Devo fare 10 blocchi, se dimensione 250 avrò 10 blocchi da 25 pixel PER RIGA. 
-	Se il numero non è multiplo di 10...sticazzi*/
-	uint dimBlocco = w / 10;
-
-	coloraBlocco(20,20, 40,40, 100, tmp);
-		
-	return tmp;
-}
-
 /*Ritorna un carattere secondo lo standard JPEG
 0	1
 1	2
@@ -170,7 +298,7 @@ char mappatura(byte c){
 /*Scrive un blocco 8x8 con il colore dato alle coordinate specificate.
 Le coordinate indicano il pixel in alto a sinistra
 */
-void colorablocco(image<byte>& img, unsigned x1, unsigned y1, byte colore){
+void coloraBlocco(image<byte>& img, unsigned x1, unsigned y1, byte colore){
 
 	unsigned f = 0;
 	unsigned y = 0;
@@ -183,6 +311,21 @@ void colorablocco(image<byte>& img, unsigned x1, unsigned y1, byte colore){
 		y++;
 	}
 }
+
+/*Fa dei blocchi w/10 bianchi e neri in sequenza*/
+image<byte> createScacchiera(uint w, uint h){
+
+	image<byte> tmp(w, h);
+
+	/*Devo fare 10 blocchi, se dimensione 250 avrò 10 blocchi da 25 pixel PER RIGA.
+	Se il numero non è multiplo di 10...sticazzi*/
+	uint dimBlocco = w / 10;
+
+	coloraBlocco(tmp, 10, 10,20);
+
+	return tmp;
+}
+
 
 
 

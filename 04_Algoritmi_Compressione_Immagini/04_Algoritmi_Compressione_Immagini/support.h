@@ -8,19 +8,6 @@
 typedef unsigned char byte;
 typedef unsigned int uint;
 
-void apriImmagine(std::string nomeFileImmagine){
-	
-	/*Dove è memorizzato il programma*/
-	std::string tmp = "xnview\\XnViewPortable.exe ";
-
-	/*Concateno il nome del file*/
-	tmp+=nomeFileImmagine;
-
-	/*Eseguo script*/
-	std::cout << "Inizio esecuzione programma esterno" << std::endl;
-	system(tmp.c_str()); //stdlib.h, e uso c_str di string per avere il const char
-};
-
 /*Classe template per RGB con 4 costruttori: vuoto, un parametro, due o tre*/
 template <typename tipo, int n>
 struct vec{
@@ -65,4 +52,3 @@ struct vec{
 typedef vec<byte, 3> vec3b;
 
 #endif
-
