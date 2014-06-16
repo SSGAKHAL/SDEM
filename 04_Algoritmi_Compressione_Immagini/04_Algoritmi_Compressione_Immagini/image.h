@@ -68,8 +68,8 @@ public:
 	/*Quanto è grande l'immagine (escluso header). Ovvero altezza*larghezza*dimensionePixel*/
 	unsigned data_size() const { return _w*_h*sizeof(T); }
 
-	bool isInBounds(int row, int col){
-		if (row >= _w || row < 0 || col >= _h || col < 0){
+	bool isInBounds(unsigned row, unsigned col){
+		if (row > _w || row < 0 || col > _h || col < 0){
 			return false;
 		} else{
 			return true;

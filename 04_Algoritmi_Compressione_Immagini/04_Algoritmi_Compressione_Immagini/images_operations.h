@@ -6,6 +6,7 @@
 #include <algorithm>
 #include "image.h"
 #include "support.h"
+#include <Windows.h>
 
 template<typename T>
 
@@ -102,8 +103,10 @@ void cyclic_roll(int &a, int &b, int &c, int &d)
 template<typename T>
 image<T> ruota90(image<T> &img){
 
-	image<T> tmp(img.height(),img.width());
+	
 
+	/*L'immagine risultante è lunga quanto alta prima!*/
+	
 //	for (int i = 0; i<n / 2; i++)
 //		for (int j = 0; j<(n + 1) / 2; j++)
 //			cyclic_roll(m[i][j], m[n - 1 - j][i], m[n - 1 - i][n - 1 - j], m[j][n - 1 - i]);
@@ -143,29 +146,49 @@ image<T> ruota90(image<T> &img){
 	}
 	*/
 	
-	
-	int r0, c0;
-	int r1, c1;
+	int teta = 90;
+	const double PI = atan(1) * 4;
+
+	int r0, c0;		//dove eseguire la rotazione, ovvero sul centro
+	int r1, c1;		//dove mettere il pixel x,y
 	int rows, cols;
 	rows = img.width();
 	cols = img.height();
 
-	float rads = (90 * M_PI) / 180.0;
+	//float rads = (teta * 3.14159265) / 180.0;	//trasformo in radianti
+	//double rads = M_PI*90/180.0;
+	double rads = PI/2;
+	//int rads = teta;
 
 	r0 = rows / 2;
 	c0 = cols / 2;
 
-	for (int r = 0; r < rows; ++r){
-		for (int c = 0; c < cols; ++c){
-			r1 = (int)(r0 + ((r - r0) * cos(rads)) - ((c - c0)*sin(rads)));
-			c1 = (int)(c0 + ((r - r0) * sin(rads)) - ((c - c0)*cos(rads)));
+	image<T> tmp(img.height(), img.width());
 
-			if (tmp.isInBounds(r1,c1))
-				tmp(r1, c1) = img(r, c);
+	for (int y = 0; y < rows; ++y){
+		for (int x = 0; x < cols; ++x){
 
+			/*Se cambio i + o i - si gira dall'altra parte!*/
+			r1 = static_cast<int>((r0 + ((y-r0) * cos(rads)) + (-c0 + (x-c0)*-sin(rads))));
+			c1 = static_cast<int>((c0 + ((y-r0) * sin(rads)) + (-c0 + (x-c0)*cos(rads))));
+
+			//r1 = static_cast<int>((r0 + ((y-r0) * 0) - ((x-c0)*1)));
+			//c1 = static_cast<int>((c0 + ((y-r0) * 1) - ((x-c0)*0)));
+
+			//r1 = x*cos(rads) + y*cos(rads);
+			//c1 = -x*sin(rads) + y*cos(rads);
+
+			if (tmp.isInBounds(r1, c1)){
+				//cout << "sto per fare: " << r1 << "," << c1 << endl;
+				tmp(r1, c1) = img(y, x);
+			}
+			else {
+				cout << "!";
+				
+			}
 		}
 	}
-	
+
 	return tmp;
 
 }

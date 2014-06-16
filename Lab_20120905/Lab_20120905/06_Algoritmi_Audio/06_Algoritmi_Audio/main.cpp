@@ -48,7 +48,6 @@ vector<double> anti(vector<double> trasformato, unsigned block_size){
 
 	int dueN = block_size * 2;		//per non sbagliarmi, ho N e 2N
 	int N = block_size;
-
 	cout << "anti!" << endl;
 
 	/*c'è + qua perchè nella trasf era un meno!*/
