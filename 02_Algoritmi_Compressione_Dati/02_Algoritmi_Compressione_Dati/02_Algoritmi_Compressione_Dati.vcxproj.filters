@@ -18,30 +18,30 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lz77.cpp">
+    <ClCompile Include="lz77_old.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="packbits.cpp">
+    <ClCompile Include="lz78_old.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lz78.cpp">
+    <ClCompile Include="packbits_old.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lz77.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="support.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="packbits.h">
+    <ClInclude Include="lz77_old.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lz78.h">
+    <ClInclude Include="lz78_old.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lzw.h">
+    <ClInclude Include="lzw_old.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="packbits_old.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

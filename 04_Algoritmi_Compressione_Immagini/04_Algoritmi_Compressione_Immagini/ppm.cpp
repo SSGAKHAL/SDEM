@@ -41,8 +41,8 @@ bool writeP6(const string& nome, const image<vec3b>& img){
 	ofstream os(nome, ios::binary);
 
 	/*Scrivo l'header*/
-	os << "P3\n";
-	os << "# Codificato in PLAIN PPM\n";
+	os << "P6\n";
+	os << "# Codificato in PPM\n";
 	os << img.width() << " " << img.height() << "\n";
 	os << "255\n";	//suppongo sia il massimo valore per ogni canale!
 

@@ -2,14 +2,16 @@
 #include <fstream>
 #include <vector>
 #include <iterator>
+#include <map>
+#include <algorithm>
+
+#include "bitstreams.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
 
 
 
-
-#include "bitstreams.h"
 
 
 
@@ -34,102 +36,134 @@ string to_binary(unsigned int code, unsigned int len) {
 	return s;
 }
 
+void provamappe(){
+	
+	map<char, int> mappa;
+	mappa['a'] = 97;
+	mappa['b'] = 98;
+	mappa['a'] += 2;
 
-/*samples ha già gli zeri all'inizio, alla fine e il padding*/
-vector<double> calcolaXk(vector<short> samples){
-
-	double Xk = 0;
-	vector<double> finale;
-
-	cout << "iniziamo" << endl;
-
-	cout << "Faccio ciclo da 0 a " << (samples.size()) << endl;
-
-	vector<double> tot(samples.size()/512);	//perfetto!!!! cit Alagggggia
-
-	for (unsigned  j = 0; j < samples.size()/512; ++j){		//ciclo di 512 blocchi alla volta
-
-		double cazzo=0;	//la somma di tutti i 512 valori di UNA finestra
-		for (unsigned int i = 0; i < 512; ++i){	//scorro tutti il primo blocco
-
-			cazzo += (samples[i] * sin(M_PI / samples.size()*(i + 0.5)) * cos((M_PI / samples.size()*0.5) * (i + 0.5 + samples.size()*0.5)*(i / 2 + 0.5)));
-		}
-
-		//il risultato nel valore j-esimo
-		tot[j] = cazzo;
+	
+	unsigned i = 0;
+	for (auto it = mappa.cbegin(); it != mappa.cend(); ++it, ++i) {
+		cout << "mappa[" << it->first << "] = " << it->second << endl;
 	}
 
-	cout << "Ho " << tot.size() << " coefficienti relativi alle finestre";
-
-	/*0 con 1, 2 con 3 etc etc*/
-	for (unsigned int i = 0; i < samples.size()*0.5; i += 2){
-		finale.push_back(tot[i] + tot[i + 1]);
+	auto a = mappa.find('b');
+	if (a != mappa.end()){
+		cout << "trovato, con valore: " << a->second;
 	}
 
-	cout << "finale contiene " << finale.size() << " cazzi" << endl;
-
-	return finale;
+	auto au = mappa.find('z');
+	if (au != mappa.end()){
+		cout << "trovato, con valore: " << au->second;
+	}
+	else {
+		cout << "non trovato" << endl;
+	}
 }
 
-//TODO: ricordati di aggiungere un blocco alla fine e all'inizio
+bool maggioreDi15(int n){
+	return (n >= 3);
+}
+
+void provafind(){
+
+	vector<int> vec;
+
+	for (int i = 0; i < 20;++i)
+		vec.push_back(i);
+
+	auto a = find_if(vec.begin(), vec.end(), maggioreDi15);
+	if (a != vec.end()){
+		int dove = *a;
+		cout << "trovato in posizione" << dove << "cioè " << vec[*a] << endl;
+	}
+
+}
+
+void provasearch(){
+
+	vector<int> uno;
+	vector<int> due;
+
+	for (int i = 0; i < 20; ++i) uno.push_back(i);
+
+	due.push_back(4);
+	due.push_back(5);
+	due.push_back(6);
+	due.push_back(7);
+
+	for (auto x : uno) cout << x << " ";
+	cout << endl;
+	for (auto x : due) cout << x << " ";
+
+	auto dove = search(uno.begin(), uno.end(), due.begin(), due.end());
+	if (dove != uno.end()){
+		cout << "trovata la sequenza alla posizione " << (dove-uno.begin()) << endl;
+	}
+	else {
+		cout << "Sequenza non trovata";
+	}
+
+}
+
+void provacopia(){
+
+	vector<int> uno;
+	vector<int> due(3);
+
+	for (int i = 0; i < 20; ++i) uno.push_back(i);
+
+	//copy(uno.begin() + 4, (uno.begin() + 4 + 3),due.begin()); fa la stessa cosa di 
+	copy_n(uno.begin() + 4, 3, due.begin());
+
+	for (auto x : due) cout << x << " ";
+
+}
+
+void scrivibit(){
+
+	ofstream os("nomefile", ios::binary);
+
+	bitwriter bw(os);
+
+	unsigned uno, due, tre;
+	uno = 10;
+	due = 5;
+	tre = 9;
+
+	{
+		bw(uno, 4);	//1010		-->per ora 4 bit	//non scrive ancora nulla!
+		bw(due, 5);	//00101		-->per ora 9 bit	//al 4 elemento (cioè ha 8 bit), scrive il primo byte poi si ricorda dell'ultimo bit
+		bw(tre, 7);	//0001001	-->per ora 16bit	//al 
+					//RISULTATO:
+					//1010.0010 1000.1001
+
+		cout << "Ho scritto il numero " << uno << " in 4 bit" << endl;
+		cout << "Ho scritto il numero " << due << " in 5 bit" << endl;
+		cout << "Ho scritto il numero " << tre << " in 7 bit" << endl;
+	}
+
+	ifstream is("nomefile", ios::binary);
+
+	bitreader br(is);
+
+	unsigned one, two, three;
+	one = br(4);
+	two = br(5);
+	three = br(7);
+
+	cout << "Ho letto il numero: " << one << " a 4 bit" << endl;
+	cout << "Ho letto il numero: " << two << " a 5 bit" << endl;
+	cout << "Ho letto il numero: " << three << " a 7 bit" << endl;
+
+}
+
 int main(){
-
-	cout << "Ciao!";
-
-	ifstream is("prova_mdct.raw", ios::binary);
-	if (!is){ cerr << "Impossibile aprire file"; return -1;}
-
-	is.seekg(0, ios::end);
-	unsigned file_size = unsigned(is.tellg());
-	is.seekg(0, ios::beg);
-
-	unsigned nSamples = file_size / 2;
-	double wn;
-
-
-	vector<short> samples(nSamples);
-
-	/*Vettore di 512 zeri*/
-	vector<short> zeri(512);
-
-	/*Leggo*/
-	is.read(reinterpret_cast<char*>(samples.data()), file_size);
-
-	cout << "sample all'inizio: " << samples.size() << endl;
-	/*Aggiungo all'inzio*/
-	samples.insert(samples.begin(), zeri.begin(), zeri.end());
-	cout << "sample dopo 512 zeri all'inizio: " << samples.size() << endl;
-	/*Aggiungo dopo*/
-	samples.insert(samples.end(), zeri.begin(), zeri.end());
-	cout << "sample dopo 512 zeri alla fine: " << samples.size() << endl;
-	/*Aggiungo Padding*/
-	unsigned padding = nSamples % 512;
-	cout << "padding: " << 512-padding << endl;
-	vector<short> zeris(512-padding);
-
-	samples.insert(samples.end(), zeris.begin(), zeris.end());
-	cout << "sample con tutta la roba ha dimensione: " << samples.size() << endl;
-
-	/*Calcolo coefficienti*/
-	vector<double> coefficienti = calcolaXk(samples);;
-
-	cout << "Alla fine di tutto, ho " << coefficienti.size() << " coefficienti";
-
-	/*Aggiungo blocco all'inizio e alla fine*/
-	//for (per 512)
-	//coefficienti.push_back()
-
-	//system("ffplay.exe -f prova_mdct.raw s16le");
-
-
-
-	//ofstream prova("prova_mdct.raw", ios::binary);
-	//if (!prova){ cerr << "errore" << endl; return - 1; }
-
-	//xn --> vector
-	//wn ..> usa la formula
-
-		// -f specifica il file, size 16 bit little endian
-		//ffplay -f s16le
-
+	//provafind();
+	//provasearch();
+	//provacopia();
+	scrivibit();
 }
+

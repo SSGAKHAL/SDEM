@@ -1,6 +1,8 @@
 #ifndef LZW_H
 #define LZW_H
 
+#include <iterator>
+
 class lzw{
 
 public:
@@ -69,34 +71,5 @@ public:
 		}
 		return result;
 	};
-
-	string decompress(Iterator begin, Iterator end) {
-		// Costruisco il dizionario.
-		int dictSize = 256;
-		map<int, string> dictionary;
-		for (int i = 0; i < 256; i++)
-			dictionary[i] = string(1, i);
-
-		string w(1, *begin++);
-		string result = w;
-		string entry;
-		for (; begin != end; begin++) {
-			int k = *begin;
-			if (dictionary.count(k))
-				entry = dictionary[k];
-			else if (k == dictSize)
-				entry = w + w[0];
-			else
-				throw "Errore compressione k";
-
-			result += entry;
-
-			// Aggiungi w+entry[0] al dizionario.
-			dictionary[dictSize++] = w + entry[0];
-
-			w = entry;
-		}
-		return result;
-	}
 };
 #endif

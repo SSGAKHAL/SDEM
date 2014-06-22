@@ -37,7 +37,9 @@ public:
 	bw('z',8)              0111.1010
 
 	In successione, fare bw('z,8'); bw('z',7); ...; bw('z',0), scrive:
-	01111010 0111101 011110 10110 1010 010 1 000000
+	01111010 0111101 011110 10110 1010 010 1 000000, cioè ordinando 8 alla volta
+	01111010 01111010 11110101 10101001 0100000x
+
 
 	*/
 	void operator() (unsigned u, unsigned count) {
@@ -71,6 +73,7 @@ class bitreader {
 			_is.get(reinterpret_cast<char&>(_buffer)); //casto per dire che _buffer è un char&
 			_bits = 8;		//e poi mi preparo a leggere altri 8 bit						   	
 		}
+
 		return (_buffer >> --_bits) & 1; //ritorno shiftato di bits 
 	}
 
@@ -107,7 +110,8 @@ unsigned get_len(T el){
 }
 
 template <class T>
-void write(T x, unsigned l){
+void write(T x, unsigned l)
+{
 	if (!.is_open()){
 		cout << "Il file non e' aperto";
 		throw;

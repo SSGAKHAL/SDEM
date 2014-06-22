@@ -27,20 +27,21 @@ string scriviTerna(int pos, int lun, char car){
 	res.append(",");
 	res.append(i2s(car));	//carattere
 	res.append(")");
+	return res;
 }
-
-
-
 
 lz77_coder::lz77_coder(){}
 
 lz77_coder::lz77_coder(std::string file){
 	std::fstream fs;
-	fs.open(file, std::fstream::in | std::fstream::binary);
+	fs.open(file, std::fstream::in /*| std::fstream::binary*/);
+	fs >> std::noskipws;
 	std::istream_iterator<unsigned char> stream_it(fs);
 	std::istream_iterator<unsigned char> eof;
 
 	std::copy(stream_it, eof, back_inserter(_data));
+
+	std::cout << "testo originale: " << _data.data() << endl << endl;
 }
 
 lz77_coder::lz77_coder(std::vector<unsigned char> data) : _data(data) {}
@@ -158,6 +159,7 @@ void lz77_coder::codify_in_console(){
 		std::cout << (*it);
 		++it;
 	}
+	cout << endl;
 }
 
 void lz77_coder::codify_in_file(std::string file){

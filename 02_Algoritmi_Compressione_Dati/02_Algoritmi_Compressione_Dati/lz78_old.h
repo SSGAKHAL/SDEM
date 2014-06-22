@@ -8,8 +8,8 @@ class lz78{
 private:
 	void put(int diz, int next, std::fstream &out);
 public:
-	void codificalz78(string name, int lung);
-	void decodificalz78(string name, int lung);
+	void codificalz78(std::string name, int lung);
+	void decodificalz78(std::string name, int lung);
 };
 
 #endif

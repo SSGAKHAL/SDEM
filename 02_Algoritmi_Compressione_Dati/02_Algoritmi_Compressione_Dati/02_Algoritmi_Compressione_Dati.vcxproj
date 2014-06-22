@@ -78,16 +78,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="lz77.cpp" />
-    <ClCompile Include="lz78.cpp" />
+    <ClCompile Include="lz77_old.cpp" />
+    <ClCompile Include="lz78_old.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="packbits.cpp" />
+    <ClCompile Include="packbits_old.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="lz77.h" />
-    <ClInclude Include="lz78.h" />
-    <ClInclude Include="lzw.h" />
-    <ClInclude Include="packbits.h" />
+    <ClInclude Include="lz77_old.h" />
+    <ClInclude Include="lz78_old.h" />
+    <ClInclude Include="lzw_old.h" />
+    <ClInclude Include="packbits_old.h" />
     <ClInclude Include="support.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

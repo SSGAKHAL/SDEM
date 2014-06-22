@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7F002FD2-BB64-4397-83DB-333D54C5D583}</ProjectGuid>
+    <ProjectGuid>{E0B1E930-461B-47B9-9DA5-93EEFEFEBA50}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>My03_Algoritmi_Vari</RootNamespace>
+    <RootNamespace>My02_AC_Dati</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -77,9 +77,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="coppia.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

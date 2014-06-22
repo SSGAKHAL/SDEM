@@ -1,13 +1,13 @@
-#ifndef PGM_H
-#define PGM_H
+#ifndef PPM_H
+#define PPM_H
 
 /*
-	Definizioni di metodi per leggere e scrivere immagini PGM
-				Portable PixMap Format
-						A COLORI
+Definizioni di metodi per leggere e scrivere immagini PGM
+Portable PixMap Format
+A COLORI
 
-		p3 --> plain
-		p6 --> normale
+p3 --> plain
+p6 --> normale
 */
 
 #include <string>

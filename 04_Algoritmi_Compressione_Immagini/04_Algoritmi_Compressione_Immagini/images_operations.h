@@ -6,7 +6,6 @@
 #include <algorithm>
 #include "image.h"
 #include "support.h"
-#include <Windows.h>
 
 template<typename T>
 
@@ -169,8 +168,8 @@ image<T> ruota90(image<T> &img){
 		for (int x = 0; x < cols; ++x){
 
 			/*Se cambio i + o i - si gira dall'altra parte!*/
-			r1 = static_cast<int>((r0 + ((y-r0) * cos(rads)) + (-c0 + (x-c0)*-sin(rads))));
-			c1 = static_cast<int>((c0 + ((y-r0) * sin(rads)) + (-c0 + (x-c0)*cos(rads))));
+			r1 = static_cast<int>((r0 + ((y-r0) * cos(rads)) + ((x-c0) * -sin(rads))));
+			c1 = static_cast<int>((c0 + ((y-r0) * sin(rads)) - ((x-c0) * cos(rads))));
 
 			//r1 = static_cast<int>((r0 + ((y-r0) * 0) - ((x-c0)*1)));
 			//c1 = static_cast<int>((c0 + ((y-r0) * 1) - ((x-c0)*0)));
@@ -184,7 +183,6 @@ image<T> ruota90(image<T> &img){
 			}
 			else {
 				cout << "!";
-				
 			}
 		}
 	}
@@ -193,7 +191,60 @@ image<T> ruota90(image<T> &img){
 
 }
 
+std::vector<image<byte>> separateRGBGrayScale(image<vec3b> img){
+
+	unsigned w, h;
+	w = img.width();
+	h = img.height();
+
+	std::cout << "sto per creare le 3 immagini" << std::endl;
+	image<byte> r(w,h);
+	image<byte> g(w,h);
+	image<byte> b(w,h);
+
+	for (unsigned y = 0; y < h; ++y){
+		for (unsigned x = 0; x < w; ++x){
+			r(x, y) = img(x, y)[0];
+			g(x, y) = img(x, y)[1];
+			b(x, y) = img(x, y)[2];
+		}
+	}
+
+	std::vector<image<byte>> tmp;
+	tmp.push_back(r);
+	tmp.push_back(g);
+	tmp.push_back(b);
+	return tmp;
+}
+
+std::vector<image<vec3b>> separateRGB(image<vec3b> img){
+
+	unsigned w, h;
+	w = img.width();
+	h = img.height();
+
+	std::cout << "sto per creare le 3 immagini" << std::endl;
+	image<vec3b> r(w, h);
+	image<vec3b> g(w, h);
+	image<vec3b> b(w, h);
+
+	for (unsigned y = 0; y < h; ++y){
+		for (unsigned x = 0; x < w; ++x){
+			r(x, y)[0] = img(x, y)[0];	//metto nell'immagine r solo il rosso (il resto è già 0)
+			g(x, y)[1] = img(x, y)[1];	//etc
+			b(x, y)[2] = img(x, y)[2];
+		}
+	}
+
+	std::vector<image<vec3b>> tmp;
+	tmp.push_back(r);
+	tmp.push_back(g);
+	tmp.push_back(b);
+	return tmp;
+}
+
 vec3b RGB2YCbCr(const vec3b& in) {
+
 	double R = in[0];
 	double G = in[1];
 	double B = in[2];
