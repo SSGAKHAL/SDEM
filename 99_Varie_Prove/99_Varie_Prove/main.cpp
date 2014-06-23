@@ -124,19 +124,20 @@ void provacopia(){
 
 void scrivibit(){
 
-	ofstream os("nomefile", ios::binary);
-
-	bitwriter bw(os);
-
-	unsigned uno, due, tre;
-	uno = 10;
-	due = 5;
-	tre = 9;
-
 	{
+
+		ofstream os("nomefile", ios::binary);
+
+		bitwriter bw(os);
+
+		unsigned uno, due, tre;
+		uno = 10;
+		due = 5;
+		tre = 9;
+
 		bw(uno, 4);	//1010		-->per ora 4 bit	//non scrive ancora nulla!
-		bw(due, 5);	//00101		-->per ora 9 bit	//al 4 elemento (cioè ha 8 bit), scrive il primo byte poi si ricorda dell'ultimo bit
-		bw(tre, 7);	//0001001	-->per ora 16bit	//al 
+		bw(due, 5);	//0010.1		-->per ora 9 bit	//al 4 elemento (cioè ha 8 bit), scrive il primo byte poi si ricorda dell'ultimo bit
+		bw(tre, 7);	//0001.001	-->per ora 16bit	//al 
 					//RISULTATO:
 					//1010.0010 1000.1001
 
@@ -146,10 +147,14 @@ void scrivibit(){
 	}
 
 	ifstream is("nomefile", ios::binary);
+	if (!is) return;
 
 	bitreader br(is);
 
-	unsigned one, two, three;
+	unsigned one = 0;
+	unsigned two = 0;
+	unsigned three = 0;
+
 	one = br(4);
 	two = br(5);
 	three = br(7);
