@@ -3,10 +3,13 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include "image.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+
+#include "trasformata.h"
 
 typedef unsigned char byte;
 
@@ -206,13 +209,28 @@ bool readBMP(const std::string& nomeFile, image<byte> img){
 	}
 
 	//vediamo se va bene
-	//img.flip(img);
-	//writeP5("vediamo", img);
+	img.flip(img);
+	writeP5("originale.pgm", img);
 
 	std::cout << calcolaEntropia(img) << std::endl;
 
-	std::vector<int> cazzo = dct(img);
+	
 
+	for (float x = 2; x < 10; ++x){
+
+		image<int> trasformata = DCT(img, 16.0);
+		image<byte> antitrasformata = IDCT(trasformata, 16.0);
+
+		std::cout << std::pow(x, 2);
+
+		std::ostringstream  oss;
+		oss << "antitrasformata";
+		oss << std::pow(x, 2);
+
+		//std::cout << "fine per " << nome.c_str() << std::endl;
+
+		writeP5(oss, antitrasformata);
+	}
 }
 
 #endif

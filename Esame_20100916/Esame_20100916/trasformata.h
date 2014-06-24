@@ -9,11 +9,10 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 typedef unsigned char byte;
-using namespace std;
 
-
-image<int> DCT(image<byte>& img){
+image<int> DCT(image<byte>& img, float livelloQuantizzazione){
 	image<int> coeff(img.getWidth(), img.getHeight());
+	
 	//Scalo tutti i coefficenti di -128
 	for (size_t y = 0; y < img.getHeight(); y++){
 		for (size_t x = 0; x < img.getWidth(); x++){
@@ -52,11 +51,25 @@ image<int> DCT(image<byte>& img){
 		++blocchi_letti;
 	}
 
+	/*Antiquantizzo*/
+	for (unsigned y = 0; y < coeff.getHeight(); ++y){
+		for (unsigned x = 0; x < coeff.getWidth(); ++x){
+			coeff(x,y) /= livelloQuantizzazione;
+		}
+	}
+
 	return coeff;
 }
 
-image<byte> IDCT(image<int>& img){
+image<byte> IDCT(image<int>& img, float livelloQuantizzazione){
 	image<byte> imgant(img.getWidth(), img.getHeight());
+
+	for (unsigned y = 0; y < img.getHeight(); ++y){
+		for (unsigned x = 0; x < img.getWidth(); ++x){
+			img(x, y) *= livelloQuantizzazione;
+		}
+	}
+
 	int offset = 0;
 	int blocchi_letti = 0;
 	int count = 0;
@@ -82,14 +95,12 @@ image<byte> IDCT(image<int>& img){
 				//Sxy += 128;
 				imgant(x + i * 8, y + offset) = (byte)Sxy;
 
-				std::cout << '\r' << count++;
+				//std::cout << '\r' << count++;
 
 			}
 
 		}
 		++blocchi_letti;
-
-
 	}
 
 	//Aggiungo 128 a tutti i coefficenti

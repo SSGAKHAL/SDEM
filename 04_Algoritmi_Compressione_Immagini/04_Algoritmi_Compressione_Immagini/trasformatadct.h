@@ -88,8 +88,6 @@ image<byte> IDCT(image<int>& img){
 
 		}
 		++blocchi_letti;
-
-
 	}
 
 	//Aggiungo 128 a tutti i coefficenti
