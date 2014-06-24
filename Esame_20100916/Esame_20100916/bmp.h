@@ -5,9 +5,10 @@
 #include <iostream>
 #include "image.h"
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 typedef unsigned char byte;
-
-
 
 bool writeP5(const std::string& sFileName, image<byte>& img) {
 	std::ofstream os(sFileName, std::ios::binary);
@@ -50,6 +51,103 @@ std::vector<byte> readBytes(std::istream& is, unsigned n){
 	return tmp;
 	
 
+}
+
+float calcolaEntropia(image<byte> img){
+
+	std::ofstream os("occorrenze", std::ios::binary);
+
+	std::vector<unsigned> occ(256);
+	for (unsigned y = 0; y < img.getHeight(); ++y){
+		for (unsigned x = 0; x < img.getWidth(); ++x){
+				occ[img(x, y)]++;
+		}
+	}
+
+	for (unsigned i = 0; i < occ.size(); ++i){
+		os << i << "\t" << occ[i] << "\n";
+	}
+
+	float h=0;
+
+	float den = img.getWidth()*img.getHeight();
+	
+	for (unsigned i = 0; i < occ.size(); ++i){
+		
+		if (occ[i] == 0)
+			continue;
+
+		unsigned num = occ[i];
+				
+		float px = num / den;
+
+		h += px*log2f(px);
+	}
+
+	return -h;
+}
+
+std::vector<int> dct_blocco(image<byte> img, unsigned x1, unsigned y1){
+
+	std::vector<int> tmp;
+
+	/*Prendo tutti e */
+	for (unsigned v = 0; v < 8; ++v){
+		for (unsigned u = 0; u < 8; ++u){
+
+			int Suv = 0;
+
+			int Cu = (u == 0) ? 0.7071 : 1;
+			int Cv = (v == 0) ? 0.7071 : 1;
+
+			for (unsigned y = y1; y < 8; ++y){
+				for (unsigned x = x1; x < 8; ++x){
+					Suv += img(x, y)
+						*cos((2 * x + 1 * u*M_PI) / 16.0)
+						*cos((2 * y + 1 * v*M_PI) / 16.0);
+				}
+			}
+
+			//y*_h + x
+
+			Suv *= Cu*Cv;
+			Suv -= 128;
+			tmp.push_back(static_cast<int>(Suv)); //controlla
+		}
+	}
+
+	std::cout << "Blocco dal pixel " << x1 << ", " << y1 << "Terminato" << std::endl;
+
+	return tmp;
+}
+
+std::vector<int> dct(image<byte> img){
+
+	std::vector<int> tmp;
+
+	unsigned num_blocchi = img.getWidth()*img.getHeight() / 64;
+
+	/*Per tutti i blocchi*/
+
+		/*Faccio la trasformata del blocco 8x8 che inizia all'indice 8*/
+
+	unsigned rigablocchi = img.getWidth() / 64;
+	unsigned colblocchi = img.getHeight() / 64;
+
+	for (unsigned y = 0; y < rigablocchi; ++y){
+		for (unsigned x = 0; x < colblocchi; ++x){
+			std::cout << "Faccio blocco " << x << ", " << y << std::endl;
+			std::vector<int> tmp2 = dct_blocco(img, x*8, y*8);
+
+			for (unsigned t = 0; t < tmp2.size(); ++t)
+				tmp.push_back(tmp2[t]);
+		}
+	}
+
+
+
+	std::cout << "terminato" << std::endl;
+	return tmp;
 }
 
 bool readBMP(const std::string& nomeFile, image<byte> img){
@@ -107,13 +205,14 @@ bool readBMP(const std::string& nomeFile, image<byte> img){
 		}
 	}
 
-	img.flip(img);
+	//vediamo se va bene
+	//img.flip(img);
+	//writeP5("vediamo", img);
 
-	writeP5("vediamo", img);
+	std::cout << calcolaEntropia(img) << std::endl;
 
+	std::vector<int> cazzo = dct(img);
 
 }
-
-
 
 #endif
