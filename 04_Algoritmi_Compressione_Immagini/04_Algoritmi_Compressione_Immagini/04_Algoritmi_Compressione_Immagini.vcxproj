@@ -87,6 +87,7 @@
     <ClInclude Include="pgm.h" />
     <ClInclude Include="ppm.h" />
     <ClInclude Include="support.h" />
+    <ClInclude Include="trasformatadct.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

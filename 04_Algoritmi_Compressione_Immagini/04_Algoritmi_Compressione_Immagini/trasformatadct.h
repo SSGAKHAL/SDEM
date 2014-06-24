@@ -13,10 +13,10 @@ using namespace std;
 
 
 image<int> DCT(image<byte>& img){
-	image<int> coeff(img.getWidth(), img.getHeight());
+	image<int> coeff(img.width(), img.height());
 	//Scalo tutti i coefficenti di -128
-	for (size_t y = 0; y < img.getHeight(); y++){
-		for (size_t x = 0; x < img.getWidth(); x++){
+	for (size_t y = 0; y < img.height(); y++){
+		for (size_t x = 0; x < img.width(); x++){
 			img(x, y) -= 128;
 		}
 	}
@@ -24,7 +24,7 @@ image<int> DCT(image<byte>& img){
 	int offset = 0;
 	int blocchi_letti = 0;
 	int count = 0;
-	unsigned num_blocco = img.getWidth()*img.getHeight() / 64;
+	unsigned num_blocco = img.width()*img.height() / 64;
 	for (size_t i = 0; i <num_blocco; i++){
 		if (blocchi_letti == 64){
 			offset = offset + 7;
@@ -56,11 +56,11 @@ image<int> DCT(image<byte>& img){
 }
 
 image<byte> IDCT(image<int>& img){
-	image<byte> imgant(img.getWidth(), img.getHeight());
+	image<byte> imgant(img.width(), img.height());
 	int offset = 0;
 	int blocchi_letti = 0;
 	int count = 0;
-	unsigned num_blocco = img.getWidth()*img.getHeight() / 64;
+	unsigned num_blocco = img.width()*img.height() / 64;
 	for (size_t i = 0; i <num_blocco; i++){
 		if (blocchi_letti == 64){
 			offset = offset + 7;
@@ -93,8 +93,8 @@ image<byte> IDCT(image<int>& img){
 	}
 
 	//Aggiungo 128 a tutti i coefficenti
-	for (size_t y = 0; y < imgant.getHeight(); y++){
-		for (size_t x = 0; x < imgant.getWidth(); x++){
+	for (size_t y = 0; y < imgant.height(); y++){
+		for (size_t x = 0; x < imgant.width(); x++){
 			imgant(x, y) += 128;
 		}
 	}
