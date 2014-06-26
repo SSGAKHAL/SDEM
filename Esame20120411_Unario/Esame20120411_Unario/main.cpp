@@ -89,8 +89,7 @@ int main(){
 
 	while (is.get(ch)){
 
-		/*Og
-		ni carattere lo trasformo in unario*/
+		/*Ogni carattere lo trasformo in unario*/
 		for (unsigned i = 0; i < ch; ++i){
 			bw(1, 1);
 		}
