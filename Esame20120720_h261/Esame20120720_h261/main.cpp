@@ -80,9 +80,6 @@ int main(){
 	if (!os2)
 		return -1;
 
-
-
-
 	ofstream os3("mb.txt", ios::binary);
 	if (!os3)
 		return -1;
