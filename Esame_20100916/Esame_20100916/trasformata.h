@@ -51,7 +51,7 @@ image<int> DCT(image<byte>& img, float livelloQuantizzazione){
 		++blocchi_letti;
 	}
 
-	/*Antiquantizzo*/
+	/*quantizzo*/
 	for (unsigned y = 0; y < coeff.getHeight(); ++y){
 		for (unsigned x = 0; x < coeff.getWidth(); ++x){
 			coeff(x,y) /= livelloQuantizzazione;

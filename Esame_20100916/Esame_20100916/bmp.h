@@ -216,21 +216,22 @@ bool readBMP(const std::string& nomeFile, image<byte> img){
 
 	
 
-	for (float x = 2; x < 10; ++x){
+	//for (float x = 2; x < 10; ++x){
 
 		image<int> trasformata = DCT(img, 16.0);
 		image<byte> antitrasformata = IDCT(trasformata, 16.0);
+		writeP5("finale.pgm", antitrasformata);
 
-		std::cout << std::pow(x, 2);
+		//std::cout << std::pow(x, 2);
 
-		std::ostringstream  oss;
-		oss << "antitrasformata";
-		oss << std::pow(x, 2);
+		//std::ostringstream  oss;
+		//oss << "antitrasformata";
+		//oss << std::pow(x, 2);
 
 		//std::cout << "fine per " << nome.c_str() << std::endl;
 
-		writeP5(oss, antitrasformata);
-	}
+		//writeP5(oss, antitrasformata);
+	//}
 }
 
 #endif

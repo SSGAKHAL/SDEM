@@ -1,0 +1,39 @@
+ebmlinspect hex
+
+#
+# EBMLInspect Format Definition for SdEM Files
+#
+# Format definitions are in the format:
+# [class id],[type],[name],[optional help text]
+#
+# If hex has been set on the first line, class id is as
+# a hexadecimal number. If hex is not set, class id
+# is assumed to be decimal.
+#
+# Lines beginning with # are comments,
+# Comments cannot be included after an entry, the line
+# must start with #.
+#
+# Blank lines are ignored.
+#
+# Including the keyword "fullstop" as the only item on a line
+# will keep the program from reading past it.
+#
+
+#EBML block
+1A45DFA3,MASTERELEMENT,EBML,
+4286,UINTEGER,EBMLVersion,
+42F7,UINTEGER,EBMLReadVersion,
+42F2,UINTEGER,EBMLMaxIDLength,
+42F3,UINTEGER,EBMLMaxSizeLength,
+4282,STRING,DocType,
+4287,UINTEGER,DocTypeVersion,
+4285,UINTEGER,DocTypeReadVersion,
+
+#Info
+A0,MASTERELEMENT,Info,
+A1,UINTEGER,PixelWidth,
+A2,UINTEGER,PixelHeight,
+
+#Data
+B0,BINARY,Data,
