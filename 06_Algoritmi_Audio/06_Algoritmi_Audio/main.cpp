@@ -50,6 +50,8 @@ vector<double> anti(vector<double> trasformato, unsigned block_size){
 	int N = block_size;
 	cout << "anti!" << endl;
 
+
+
 	/*c'è + qua perchè nella trasf era un meno!*/
 	vector<double> ricostruito(trasformato.size()+block_size);
 
