@@ -74,7 +74,7 @@ class image{
 	vector<T> data;
 public:
 	image() : w(0), h(0){}
-	image(unsigned largh, unsigned alt) : w(largh), h(alt), data(largh*alt)){}
+	image(unsigned largh, unsigned alt) : w(largh), h(alt), data(largh*alt){}
 
 	void resize(unsigned largh, unsigned alt){
 		w = largh;
@@ -110,6 +110,11 @@ typedef vec<byte, 3> vec3b;
 
 int main(){
 	
+	unsigned count = 2;
+	for (int i = 0; i < 10; i++){
+		cout << count-- << endl;
+	}
+
 	image <byte> biancoNero;
 	image<vec3b> immagineColori;
 
@@ -117,8 +122,8 @@ int main(){
 	unsigned VERDE = 1;
 	unsigned BLU = 2;
 
-	biancoNero(3, 2) = 4;
-	immagineColori(3, 2)[1] = 4;
+	//biancoNero(3, 2) = 4;
+	//immagineColori(3, 2)[1] = 4;
 
 
 	ifstream is("prova.elias", ios::binary);

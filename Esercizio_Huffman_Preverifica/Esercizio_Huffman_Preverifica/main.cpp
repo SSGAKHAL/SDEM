@@ -157,6 +157,12 @@ int main(){
 
 	stampaOccorrenze(tmp2);
 
+	//
+	//
+	//		per farlo venire, questa deve essere deque<node*> tree
+	//
+	//
+
 	deque<node> tree;
 
 	for (unsigned i = 0; i < tmp2.size(); ++i){
@@ -174,13 +180,10 @@ int main(){
 		node n(somma, &tree[tree.size() - 2], &tree[tree.size() - 1]);
 
 		/*Cancello l'ultimo elemento*/
-		//tree.pop_back();
+		tree.pop_back();
 
 		/*E il penultimo*/
-		//tree.pop_back();
-
-		tree.emplace_back();
-		tree.emplace_back();
+		tree.pop_back();
 
 		/*Dove lo metto*/
 		auto a = find_if(tree.begin(), tree.end(), MyClassComp(somma));
