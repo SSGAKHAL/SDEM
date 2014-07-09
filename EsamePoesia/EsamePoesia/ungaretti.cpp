@@ -49,6 +49,7 @@ class bitwriter{
 			nbit = 0;
 		}
 	}
+
 		
 public:
 	bitwriter(ostream& os) : _os(os), nbit(0){}
