@@ -1,7 +1,7 @@
 SDEM
 ====
 
-Materiale informatico tutto in c++ degli argomenti di SDEM 2014.
+Materiale informatico tutto in c++ degli argomenti di SDEM 2014. Su github risulta in javascript perchè sono inclusi programmi per lettura file, immagini e altro all'interno dei progetti
 
 DISCLAIMER
 ====
@@ -59,14 +59,19 @@ ALTRA ROBA
 ====
 EsercizioAudioPreVerifica
     audio rifatto
+    
 EsercizioMuLaw
     tentativo di fare una codifica/decodifica secondo la mulaw
+    
 EsercizioHuffan
     tentativo di generazione dell'albero dei codici di huffman - c'è un errore va fatto vector<nodi*> non di nodi e basta
+    
 Esercizio LZW
     che altro devo dire?
+    
 Fragola
     bestemmie varie
+    
     
     
     
