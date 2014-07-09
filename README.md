@@ -14,16 +14,22 @@ ESERCIZI
 ====
 00_Sintassi_Generale_cplusplus
     Se non sai nemmeno cosa sia il C, leggi un pò questa roba
+    
 02_AC_Dati
     Contiene un LZ77, l'intento era fare un progetto con tutti gli LZ ma poi mi ero rotto il cazzo
+    
 03_Bits
     Un pò di giochi con i bit
+    
 04_Algoritmi_Compressione_Immagini
     Un pò di tutto sulle immagini, classi, operazioni, letture pgm, ppm, separazione RGB etc
+    
 06_Algoritmi_Audio
     Un esercizio probabilmente sbagliato sull'audio, e uno riveduto e corretto. Guarda anche in "altra roba"
+    
 99_Varie_Prove
     Prove sulle funzioni std come mappe e find
+    
 
 
 ESAMI
