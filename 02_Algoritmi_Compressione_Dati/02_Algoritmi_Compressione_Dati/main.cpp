@@ -17,5 +17,6 @@ int main(){
 	***************************************************/
 	lz77_coder prova("file.txt");
 
+
 	prova.codify_in_file("output.txt");
 }
