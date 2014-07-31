@@ -1,4 +1,4 @@
-#include "lz78.h"
+#include "lz78_old.h"
 #include <iostream>
 #include <vector>
 #include "support.h"

@@ -1,4 +1,4 @@
-#include "lz77.h"
+#include "lz77_old.h"
 #include "support.h"
 #include <algorithm>
 #include <iterator>
@@ -33,6 +33,7 @@ string scriviTerna(int pos, int lun, char car){
 lz77_coder::lz77_coder(){}
 
 lz77_coder::lz77_coder(std::string file){
+
 	std::fstream fs;
 	fs.open(file, std::fstream::in /*| std::fstream::binary*/);
 	fs >> std::noskipws;
@@ -41,7 +42,7 @@ lz77_coder::lz77_coder(std::string file){
 
 	std::copy(stream_it, eof, back_inserter(_data));
 
-	std::cout << "testo originale: " << _data.data() << endl << endl;
+	//std::cout << "testo originale: " << _data.data() << endl << endl;
 }
 
 lz77_coder::lz77_coder(std::vector<unsigned char> data) : _data(data) {}
@@ -56,6 +57,7 @@ void lz77_coder::read_data_from_file(std::string file){
 }
 
 void lz77_coder::codify_data(){
+
 	std::string tmp;
 	std::string dictionary;
 	unsigned actual_pos;
@@ -163,6 +165,7 @@ void lz77_coder::codify_in_console(){
 }
 
 void lz77_coder::codify_in_file(std::string file){
+
 	std::fstream fout;
 	codify_data();
 	fout.open(file, std::fstream::out);
